@@ -5,6 +5,8 @@
 }
 ---
 
+<div itemscope itemtype="https://schema.org/FAQPage">
+
 # Installation of Wasabi
 
 ## Installing the Package
@@ -215,3 +217,5 @@ Optionally you can add a `--keepalive` flag that will make sure your daemon will
 On Linux and macOS you can just add some parameters to the Wasabi executable and it'll act like a daemon, on Windows you have to use `wassabeed.exe` from Program Files.
 You may want to start with `--help`.
 :::
+
+</div>
