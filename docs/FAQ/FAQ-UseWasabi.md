@@ -5,6 +5,8 @@
 }
 ---
 
+<div itemscope itemtype="https://schema.org/FAQPage">
+
 # Use of Wasabi
 
 ## Wallet Manager
@@ -1360,3 +1362,5 @@ Hardware Wallet
 - How can I type in the PIN of my Trezor One?
 - How can I manage the passphrase of my Trezor T?
 - Can I use the passphrase of my Trezor One?
+
+</div>
