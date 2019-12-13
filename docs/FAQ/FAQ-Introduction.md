@@ -5,6 +5,8 @@
 }
 ---
 
+<div itemscope itemtype="https://schema.org/FAQPage">
+
 # Introduction to Wasabi
 
 ## The Basics
@@ -284,3 +286,5 @@ For the complete explanation please read [ZeroLink: The Bitcoin Fungibility Fram
 Click [here](https://github.com/dotnet/core/blob/master/release-notes/3.1/3.1-supported-os.md) to check if .NET Core 3.1 supports your OS. 
 
 :::
+
+</div>
