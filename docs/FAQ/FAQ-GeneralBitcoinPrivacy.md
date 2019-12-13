@@ -5,6 +5,8 @@
 }
 ---
 
+<div itemscope itemtype="https://schema.org/FAQPage">
+
 # General Bitcoin Privacy
 
 ## Why Privacy matters
@@ -200,3 +202,5 @@ Route everything through Tor by default.
 It is also good practice to route your chats through the Tor network.
 You can also configure many cloud storage providers in this way.
 :::
+
+</div>
