@@ -1,6 +1,15 @@
+---
+{
+  "title": "Hardware Wallet Integration Testing",
+  "description": "This is a checklist for the testers of different hardware wallets to ensure proper integration with off-line signing devices. This is the Wasabi documentation, an archive of knowledge about the open-source, non-custodial and privacy-focused Bitcoin wallet for desktop."
+}
+---
+
+
+
 # Wasabi Hardware Wallet Integration Testing
 
-|                | Windows | OSX     | Linux   |
+|                | Windows | macOS     | Linux   |
 |----------------|---------|---------|---------|
 | Coldcard       | pass    | pass    | pass    |
 | Digital BitBox |         |         |         |
@@ -25,30 +34,11 @@ sudo groupadd plugdev
 sudo usermod -aG plugdev `whoami`
 ```
 
-More info here: https://github.com/bitcoin-core/HWI/tree/master/udev
+More info here: [https://github.com/bitcoin-core/HWI/tree/master/hwilib/udev](https://github.com/bitcoin-core/HWI/tree/master/hwilib/udev)
 
 ## Step 1: Build From Source Code
 
-### Get The Requirements
-
-1. Get Git: https://git-scm.com/downloads
-2. Get .NET Core 2.2 SDK: https://www.microsoft.com/net/download (Note, you can disable .NET's telemetry by typing `export DOTNET_CLI_TELEMETRY_OPTOUT=1` on Linux and OSX or `set DOTNET_CLI_TELEMETRY_OPTOUT=1` on Windows.)
-  
-### Get Wasabi
-
-Clone & Restore & Build
-
-```sh
-git clone https://github.com/zkSNACKs/WalletWasabi.git --recursive
-cd WalletWasabi/WalletWasabi.Gui
-dotnet build
-```
-
-### Run Wasabi
-
-Run Wasabi with `dotnet run` from the `WalletWasabi.Gui` folder.
-
-More info here: https://github.com/zkSNACKs/WalletWasabi/blob/master/README.md
+Follow this step-by-step [guide](../using-wasabi/BuildSource.md).
 
 ## Step 2: Test
 
@@ -60,8 +50,8 @@ More info here: https://github.com/zkSNACKs/WalletWasabi/blob/master/README.md
 
 Report results on GitHub or Reddit.
 
-On GitHub by commenting under this pull request: https://github.com/zkSNACKs/WalletWasabi/pull/1341
+On GitHub by commenting under this pull request: [https://github.com/zkSNACKs/WalletWasabi/pull/1341](https://github.com/zkSNACKs/WalletWasabi/pull/1341)
 
-On Reddit by commenting under this thread: https://old.reddit.com/r/WasabiWallet/comments/bdyz84/wasabi_wallet_hardware_wallet_integration_testing/
+On Reddit by commenting under this thread: [https://old.reddit.com/r/WasabiWallet/comments/bdyz84/wasabi_wallet_hardware_wallet_integration_testing/](https://old.reddit.com/r/WasabiWallet/comments/bdyz84/wasabi_wallet_hardware_wallet_integration_testing/)
 
 Please include your OS version and your hardware wallet type.

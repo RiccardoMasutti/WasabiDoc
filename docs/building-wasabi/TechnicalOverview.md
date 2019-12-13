@@ -1,5 +1,9 @@
 ---
-sidebarDepth: 1
+{
+  "title": "Technical Overview of Wasabi Wallet",
+  "description": "An in depth guide over many nuances of Wasabi, how to use it properly, and where further improvements are needed. This is the Wasabi documentation, an archive of knowledge about the open-source, non-custodial and privacy-focused Bitcoin wallet for desktop.",
+  "sidebarDepth": "1"
+}
 ---
 
 # A Technical Overview of Wasabi Wallet, Future Ideas, Plans and Strategy
@@ -42,7 +46,7 @@ At this point it is unclear if Wasabi will ever have the resources to tackle oth
 
 ### Wasabi Wallet Under the Hood
 
-Wasabi is an [open-source](https://github.com/zkSNACKs/WalletWasabi/), desktop Bitcoin wallet, working on Windows, Linux and OSX, written in [.NET Core](https://en.wikipedia.org/wiki/.NET_Core) (C#), which is cross platform and open source .NET.
+Wasabi is an [open-source](https://github.com/zkSNACKs/WalletWasabi/), desktop Bitcoin wallet, working on Windows, Linux and macOS, written in [.NET Core](https://en.wikipedia.org/wiki/.NET_Core) (C#), which is cross platform and open source .NET.
 Wasabi uses [NBitcoin](https://github.com/MetacoSA/NBitcoin/) as its Bitcoin library, to which Wasabi developers are frequent contributors: [@lontivero](https://github.com/lontivero), [@nopara73](https://github.com/nopara73).
 Wasabi uses [Avalonia](https://github.com/AvaloniaUI/Avalonia/) library as its UI framework where Wasabi developer [@danwalmsley](https://github.com/danwalmsley) is a maintainer.
 Wasabi does not support and does not plan to support other currencies in the future.
@@ -62,15 +66,15 @@ To better understand the architecture of the wallet it is helpful to go through 
 
 The "Tor" label shows the status of the Tor daemon.
 Tor is an anonymity network which Wasabi ships with by default and runs in the background.
-The user can also opt to use their own Tor instance. All Internet traffic goes through Tor and by deafault all this traffic stays inside the onion network.
+The user can also opt to use their own Tor instance. All Internet traffic goes through Tor and by default all this traffic stays inside the onion network.
 Exit nodes are only involved in fallback scenarios.
-For example if the Tor hidden service of the backend becomes unavaiable for the user, the wallet falls back communicating with the backend's clearnet endpoint, still over Tor.
+For example if the Tor hidden service of the backend becomes unavailable for the user, the wallet falls back communicating with the backend's clearnet endpoint, still over Tor.
 Wasabi also frequently utilizes multiple Tor streams where applicable.
 For example, registration of CoinJoin inputs and outputs is done through different Tor streams to avoid linking.
 
 ![](/StatusBarTorRunning.png)
 
-Wasabi's backend is used to facilitate [Chaumian CoinJoin](https://github.com/nopara73/ZeroLink#ii-chaumian-coinjoin) coordination between the mixing participants and to serve Golomb-Rice filters to the clients, similarly to [BIP158](https://github.com/bitcoin/bips/blob/master/bip-0158.mediawiki).
+Wasabi's backend is used to facilitate [Chaumian CoinJoin](https://github.com/nopara73/ZeroLink#ii-chaumian-coinjoin) coordination between the mixing participants and to serve Golomb-Rice filters to the clients, similarly to [BIP 158](/using-wasabi/BIPs.md#bip-158-compact-block-filters-for-light-clients).
 More information will be provided about the difference soon.
 Before that, it is worth pointing out that the design choice of building a light wallet was made because such a wallet can attract orders of magnitude more users compared to a wallet on top of a full node, and more users means larger and faster CoinJoins.
 Historically, all light wallets were vulnerable to some kind of network observer due to unprivate utxo fetching.
@@ -78,7 +82,7 @@ A few years ago, the only type of wallet that wasn't vulnerable was a full node,
 The first iteration of Wasabi was [HiddenWallet](https://github.com/zkSNACKs/WalletWasabi/tree/hiddenwallet-v0.6), which was a full-block SPV wallet that aimed to leverage usability without compromising privacy through the omission of initial blockchain downloading compared to a full node.
 In theory, it was a light wallet.
 In practice, it was hard to compete with Bitcoin Core's micro-optimizations and it was still painful to wait for wallet synchronization every time the wallet was opened.
-[Read more about network level Bitcoin wallet privacy here.](https://medium.com/@nopara73/bitcoin-core-vs-wasabi-wallet-network-level-privacy-bdca1d501387)
+[Read more about network level Bitcoin wallet privacy here.](/using-wasabi/NetworkLevelPrivacy.md)
 
 ![](/StatusBarBackendConnected.png)
 
@@ -93,7 +97,8 @@ At first glance, this may be seen as hazardous to privacy, however Wasabi user u
 In the future, as more and more wallets adopt bech32, Wasabi developers will have to look at how to scale the performance and network usage of the wallet.
 Failing that, Wasabi's initial sync will slow down.
 
-This page shows the wallets that can be used to send to and receive from Wasabi: https://en.bitcoin.it/wiki/Bech32_adoption#Software_Wallets
+The [Bitcoin Wiki](https://en.bitcoin.it/wiki/Bech32_adoption#Software_Wallets) and [When Segwit](https://whensegwit.com/#who) show the wallets that can be used to send to and receive from Wasabi.
+
 
 ![](/Receive.png)
 
@@ -102,7 +107,7 @@ After Wasabi receives the filters from the backend, it can download the required
 Wasabi then stores the block in its entirety on disk so it won't fetch it again.
 Storing blocks on the disk may take up too much space when the wallet is used extensively.
 There is room for improvement there as well.
-Wasabi only connects to onion peers, which faciliates end to end encryption, and it connects to them on a different Tor streams.
+Wasabi only connects to onion peers, which facilitates end to end encryption, and it connects to them on a different Tor streams.
 After every block download Wasabi disconnects the peer.
 
 Furthermore, if you have a full node running in the background Wasabi won't download blocks from peers, but rather will use the full node to fetch the block from instead.
@@ -134,7 +139,7 @@ By clicking on the Max button, one can spend all selected coins. Spending whole 
 The Bitcoin fee rates are fetched from the backend server, the source of these fees are Bitcoin Core's `estimatesmartfee`'s `CONSERVATIVE` output.
 Every fee query happens over Tor with a new Tor identity.
 When clicking send, the wallet will broadcast the transaction to a random peer, then disconnects the peer.
-This is currently [the optimal way to broadcast transactions from a privacy point of view,](https://medium.com/@nopara73/bitcoin-core-vs-wasabi-wallet-network-level-privacy-bdca1d501387) but a more ideal way would be to implement the [Dandelion](https://github.com/gfanti/bips/blob/master/bip-dandelion.mediawiki) protocol for transaction broadcasting when the Bitcoin network adopts it.
+This is currently [the optimal way to broadcast transactions from a privacy point of view,](/using-wasabi/NetworkLevelPrivacy.md) but a more ideal way would be to implement the [Dandelion](/using-wasabi/BIPs.md#bip-156-dandelion-privacy-enhancing-routing) protocol for transaction broadcasting when the Bitcoin network adopts it.
 
 ![](/SendAmountFeePassword.png)
 
@@ -153,7 +158,7 @@ If the user does not wish to proceed, they can dequeue their coins.
 
 ![](/CoinJoinStatus.png)
 
-After a mix has successfully executed, the resulting CoinJoin transaction will look like the [following real example](https://www.smartbit.com.au/tx/a0855875fd3d19522568ad673e4b52e11691d837021d74eef0d177f9e0950bf2):
+After a mix has successfully executed, the resulting CoinJoin transaction will look like the [following real example](https://blockstream.info/tx/a0855875fd3d19522568ad673e4b52e11691d837021d74eef0d177f9e0950bf2):
 
 ![](/TXCoinJoin.png)
 
@@ -180,8 +185,8 @@ The more Wasabi users there are, the better their privacy.
 Advancing this issue can take various, often opportunistic forms.
 A few ideas:
 
-- Add Infographics to software https://github.com/zkSNACKs/Meta/issues/32
-- Implement Bitcoin Academy https://github.com/zkSNACKs/Meta/issues/33
+- Add Infographics to software [https://github.com/zkSNACKs/Meta/issues/32](https://github.com/zkSNACKs/Meta/issues/32)
+- Implement Bitcoin Academy [https://github.com/zkSNACKs/Meta/issues/33](https://github.com/zkSNACKs/Meta/issues/33)
 
 ## IV. Bitcoin Privacy Improvements
 
@@ -218,7 +223,7 @@ It is also worth pointing out that if [Confidential Transactions](https://people
 #### Unequal Input Mixing
 
 One of the most exciting advancements could be achieved by improving the mixing itself.
-The intuition behind Unequal Input Mixing, (https://github.com/zkSNACKs/Meta/issues/4, https://github.com/nopara73/ZeroLink/issues/74) that could replace today's fixed denomination mixing, is clear, and its benefits are huge.
+The intuition behind Unequal Input Mixing, ([https://github.com/zkSNACKs/Meta/issues/4](https://github.com/zkSNACKs/Meta/issues/4), [https://github.com/nopara73/ZeroLink/issues/74](https://github.com/nopara73/ZeroLink/issues/74)) that could replace today's fixed denomination mixing, is clear, and its benefits are huge.
 However this requires further research.
 
 The currently identified advantages of unequal input mixing compared to fixed denomination mixing are discussed briefly below, using the following notation:
@@ -242,7 +247,7 @@ In FDM, if the user would decide to participate with an already mixed coin, they
 
 #### Mix to Self vs Mixing to Others
 
-Mix to Others (https://github.com/zkSNACKs/Meta/issues/6, https://github.com/nopara73/ZeroLink/issues/75) also has great potential, since it could completely replace Simple Send.
+Mix to Others ([https://github.com/zkSNACKs/Meta/issues/6](https://github.com/zkSNACKs/Meta/issues/6), [https://github.com/nopara73/ZeroLink/issues/75](https://github.com/nopara73/ZeroLink/issues/75)) also has great potential, since it could completely replace Simple Send.
 It is, however, dubious whether there will ever be enough liquidity for this.
 
 ### Simple Send Improvements
@@ -251,22 +256,22 @@ Improving simple send using current Bitcoin anonymity techniques is also an inte
 These do not even have to disrupt the current user workflow, they can mostly "just happen" in the background.
 Some additional thoughts and details on this section can be found [here](https://github.com/zkSNACKs/Meta/issues/23#issuecomment-430514345).
 
-- JoinMarket: https://github.com/zkSNACKs/Meta/issues/5
-- Friend CoinJoin Network:  https://github.com/zkSNACKs/Meta/issues/17
-- Merge Avoidance with BIP47 Payment Codes: https://github.com/zkSNACKs/Meta/issues/10
-- Clusterfuck Wallet Strategies: https://github.com/zkSNACKs/Meta/issues/11, https://github.com/zkSNACKs/Meta/issues/18, https://github.com/nopara73/ZeroLink/issues/42, https://github.com/zkSNACKs/Meta/issues/18
-- Pay to EndPoint: https://github.com/zkSNACKs/Meta/issues/18, https://github.com/zkSNACKs/Meta/issues/18, https://github.com/zkSNACKs/Meta/issues/23
-- GroupSend: https://github.com/zkSNACKs/WalletWasabi/issues/760
+- JoinMarket: [https://github.com/zkSNACKs/Meta/issues/5](https://github.com/zkSNACKs/Meta/issues/5)
+- Friend CoinJoin Network: [https://github.com/zkSNACKs/Meta/issues/17](https://github.com/zkSNACKs/Meta/issues/17)
+- Merge Avoidance with [BIP 47](/using-wasabi/BIPs.md#bip-47-reusable-payment-codes-for-hierarchical-deterministic-wallets) Payment Codes: [https://github.com/zkSNACKs/Meta/issues/10](https://github.com/zkSNACKs/Meta/issues/10)
+- Clusterfuck Wallet Strategies: [https://github.com/zkSNACKs/Meta/issues/11](https://github.com/zkSNACKs/Meta/issues/11), [https://github.com/zkSNACKs/Meta/issues/18](https://github.com/zkSNACKs/Meta/issues/1), [https://github.com/nopara73/ZeroLink/issues/42](https://github.com/nopara73/ZeroLink/issues/42), [https://github.com/zkSNACKs/Meta/issues/18](https://github.com/zkSNACKs/Meta/issues/18)
+- Pay to EndPoint: [https://github.com/zkSNACKs/Meta/issues/18](https://github.com/zkSNACKs/Meta/issues/18), [https://github.com/zkSNACKs/Meta/issues/18](https://github.com/zkSNACKs/Meta/issues/18), [https://github.com/zkSNACKs/Meta/issues/23](https://github.com/zkSNACKs/Meta/issues/23)
+- GroupSend: [https://github.com/zkSNACKs/WalletWasabi/issues/760](https://github.com/zkSNACKs/WalletWasabi/issues/760)
 
 ### Coin Control and Privacy Feedback Improvements
 
 Improving the user friendliness, the accuracy of coin awareness and what happens on the blockchain can be also beneficial.
 
-- New Type of Bitcoin UI: https://github.com/zkSNACKs/Meta/issues/8
-- Input Joining Avoidance Strategy by Killing Kittens: https://github.com/nopara73/ZeroLink/issues/65
-- Improve History of a Coin: https://github.com/zkSNACKs/WalletWasabi/issues/612
-- Accurate Anonymity Set Calculation: https://github.com/zkSNACKs/WalletWasabi/issues/728
-- Interactive Privacy Suggestions when Spending - https://github.com/zkSNACKs/WalletWasabi/issues/729
+- New Type of Bitcoin UI: [https://github.com/zkSNACKs/Meta/issues/8](https://github.com/zkSNACKs/Meta/issues/8)
+- Input Joining Avoidance Strategy by Killing Kittens: [https://github.com/nopara73/ZeroLink/issues/65](https://github.com/nopara73/ZeroLink/issues/65)
+- Improve History of a Coin: [https://github.com/zkSNACKs/WalletWasabi/issues/612](https://github.com/zkSNACKs/WalletWasabi/issues/612)
+- Accurate Anonymity Set Calculation: [https://github.com/zkSNACKs/WalletWasabi/issues/728](https://github.com/zkSNACKs/WalletWasabi/issues/728)
+- Interactive Privacy Suggestions when Spending - [https://github.com/zkSNACKs/WalletWasabi/issues/729](https://github.com/zkSNACKs/WalletWasabi/issues/729)
 
 ### Lightning Network Leverage
 
@@ -274,18 +279,18 @@ At this point, it is too early to start leveraging LN in a privacy oriented wall
 However, if Bitcoin is successful in the future, there will be a need to think about these questions, since [blockchains don't scale.](https://medium.com/@nopara73/how-to-scale-a-blockchain-a997dcb12775)
 
 - CoinJoinXT
-- Open Lightning Channels with ZeroLink in Wasabi - https://github.com/zkSNACKs/Meta/issues/3, https://github.com/nopara73/ZeroLink/issues/58
+- Open Lightning Channels with ZeroLink in Wasabi - [https://github.com/zkSNACKs/Meta/issues/3](https://github.com/zkSNACKs/Meta/issues/3), [https://github.com/nopara73/ZeroLink/issues/58](https://github.com/nopara73/ZeroLink/issues/58)
 
 ## V. General Wallet Features
 
 Wasabi today has all the features a Bitcoin wallet needs that are not related to privacy. There may be other useful features to add, however.
-- Pay to Many: https://github.com/zkSNACKs/WalletWasabi/issues/733
-- Advanced RBF (ethical concerns here): https://github.com/zkSNACKs/Meta/issues/15
-- Lightning Network integration eventually will be unavoidable for any Bitcoin wallet if they want to stay in business, since blockchains don't scale: https://github.com/zkSNACKs/Meta/issues/2
-- Sweep Private Key: https://github.com/zkSNACKs/WalletWasabi/issues/486
-- Paper Wallet Generation: https://github.com/zkSNACKs/WalletWasabi/issues/727
-- Read QR Code (currently it only shows it): https://github.com/zkSNACKs/WalletWasabi/issues/731
-- Bitcoin URL Support: https://github.com/zkSNACKs/WalletWasabi/issues/732
+- Pay to Many: [https://github.com/zkSNACKs/WalletWasabi/issues/733](https://github.com/zkSNACKs/WalletWasabi/issues/733)
+- Advanced RBF (ethical concerns here): [https://github.com/zkSNACKs/Meta/issues/15](https://github.com/zkSNACKs/Meta/issues/15)
+- Lightning Network integration eventually will be unavoidable for any Bitcoin wallet if they want to stay in business, since blockchains don't scale: [https://github.com/zkSNACKs/Meta/issues/2](https://github.com/zkSNACKs/Meta/issues/2)
+- Sweep Private Key: [https://github.com/zkSNACKs/WalletWasabi/issues/486](https://github.com/zkSNACKs/WalletWasabi/issues/486)
+- Paper Wallet Generation: [https://github.com/zkSNACKs/WalletWasabi/issues/727](https://github.com/zkSNACKs/WalletWasabi/issues/727)
+- Read QR Code (currently it only shows it): [https://github.com/zkSNACKs/WalletWasabi/issues/731](https://github.com/zkSNACKs/WalletWasabi/issues/731)
+- Bitcoin URL Support: [https://github.com/zkSNACKs/WalletWasabi/issues/732](https://github.com/zkSNACKs/WalletWasabi/issues/732)
 
 ## VI. Accessibility
 
@@ -293,18 +298,18 @@ The more users use the wallet the more privacy it can provide.
 
 ### Localization
 
-Since most of the world does not speak English, localization (https://github.com/zkSNACKs/Meta/issues/22) of Wasabi is something to consider.
+Since most of the world does not speak English, localization ([https://github.com/zkSNACKs/Meta/issues/22](https://github.com/zkSNACKs/Meta/issues/22)) of Wasabi is something to consider.
 
 ### Traditional Bitcoin Addresses vs Bech32 Adoption
 
 Wasabi wallet uses bech32 addresses only.
 These addresses are not fully supported by the whole Bitcoin ecosystem.
-It would be beneficial to make pull requests to open source softwares to support sending money to bech32 addresses: https://github.com/zkSNACKs/WalletWasabi/issues/951
+It would be beneficial to make pull requests to open source softwares to support sending money to bech32 addresses: [https://github.com/zkSNACKs/WalletWasabi/issues/951](https://github.com/zkSNACKs/WalletWasabi/issues/951)
 
-Wasabi, in theory could use P2SH over P2WPKH, wrapped segwit addresses, (https://github.com/zkSNACKs/Meta/issues/7) since the ability to spend to bech32 addresses is not quite there yet.
+Wasabi, in theory could use P2SH over P2WPKH, wrapped segwit addresses, ([https://github.com/zkSNACKs/Meta/issues/7](https://github.com/zkSNACKs/Meta/issues/7)) since the ability to spend to bech32 addresses is not quite there yet.
 On the other hand, this could be considered a backward-looking short-sighted improvement.
 
-A way of facilitating funds to make their way into the wallet would be to introduce transitionary P2WPKH over P2SH addresses those would not be checked against Golomb-Rice filters, but rather a single backend query would establish its balance only once, then immediately sweeping the money to a bech32 wallet-managed address: https://github.com/zkSNACKs/Meta/issues/34
+A way of facilitating funds to make their way into the wallet would be to introduce transitionary P2WPKH over P2SH addresses those would not be checked against Golomb-Rice filters, but rather a single backend query would establish its balance only once, then immediately sweeping the money to a bech32 wallet-managed address: [https://github.com/zkSNACKs/Meta/issues/34](https://github.com/zkSNACKs/Meta/issues/34)
 
 ### Smartphone
 
@@ -312,7 +317,7 @@ In theory, Wasabi could support smart phones (Android, iOS).
 In practice, these platforms and their tools are not mature enough just yet.
 The concept of network analysis resistant smartphone wallets is not yet proven.
 If we would try to port Wasabi's code today, the wallet would use too much storage space, battery and network.
-However, technology is improving quickly, thus, timing has special importance in this matter. https://github.com/zkSNACKs/Meta/issues/9
+However, technology is improving quickly, thus, timing has special importance in this matter. [https://github.com/zkSNACKs/Meta/issues/9](https://github.com/zkSNACKs/Meta/issues/9)
 
 ### Web Wallet
 
@@ -334,10 +339,10 @@ Wasabi could ship with a bitcoind, much the same way as it does with Tor.
 Another way to improve the software is to let developers play with it through a daemon (RPC?) process.
 This however may lead to enterprise adoption, which is good for liquidity, but there is a risk of centralization and thus Sybil attacks.
 May become more likely.
-For example an exchange could decide to add CoinJoins and if they acquire 50% of liquidity in Wasabi, this way many of the wallet assumptions about anonymity sets would become less accurate. https://github.com/zkSNACKs/Meta/issues/12
+For example an exchange could decide to add CoinJoins and if they acquire 50% of liquidity in Wasabi, this way many of the wallet assumptions about anonymity sets would become less accurate. [https://github.com/zkSNACKs/Meta/issues/12](https://github.com/zkSNACKs/Meta/issues/12)
 Wasabi already has a public web API.
-However developers should not build wallets on top of it, since breakin changes must be expected.
-Misc things like Twitter bots are fine: http://wasabiukrxmkdgve5kynjztuovbg43uxcbcxn6y2okcrsg7gb6jdmbad.onion/swagger/index.html (https://wasabiwallet.io/swagger/index.html)
+However developers should not build wallets on top of it, since breaking changes must be expected.
+Misc things like Twitter bots are fine: [http://wasabiukrxmkdgve5kynjztuovbg43uxcbcxn6y2okcrsg7gb6jdmbad.onion/swagger/index.html](http://wasabiukrxmkdgve5kynjztuovbg43uxcbcxn6y2okcrsg7gb6jdmbad.onion/swagger/index.html) ([https://wasabiwallet.io/swagger/index.html](https://wasabiwallet.io/swagger/index.html))
 
 ### .NET Ecosystem
 
@@ -348,19 +353,19 @@ It would be also beneficial and not difficult to integrate Wasabi into existing 
 
 Other non closely Bitcoin related features may be beneficial for the privacy of Wasabi users.
 
-- In-Wallet Block Explorer Query over Tor: https://github.com/zkSNACKs/Meta/issues/19
-- Integrated VPN Service For Oppressed Countries: https://github.com/zkSNACKs/Meta/issues/16
-- Basic PGP Client: https://github.com/zkSNACKs/Meta/issues/13
-- Simple P2P, Encrypted Messaging: https://github.com/zkSNACKs/Meta/issues/14
-- Add Folder Encryption https://github.com/zkSNACKs/Meta/issues/36
-- Protect Data Folders https://github.com/zkSNACKs/Meta/issues/39
+- In-Wallet Block Explorer Query over Tor: [https://github.com/zkSNACKs/Meta/issues/19](https://github.com/zkSNACKs/Meta/issues/19)
+- Integrated VPN Service For Oppressed Countries: [https://github.com/zkSNACKs/Meta/issues/16](https://github.com/zkSNACKs/Meta/issues/16)
+- Basic PGP Client: [https://github.com/zkSNACKs/Meta/issues/13](https://github.com/zkSNACKs/Meta/issues/13)
+- Simple P2P, Encrypted Messaging: [https://github.com/zkSNACKs/Meta/issues/14](https://github.com/zkSNACKs/Meta/issues/14)
+- Add Folder Encryption [https://github.com/zkSNACKs/Meta/issues/36](https://github.com/zkSNACKs/Meta/issues/36)
+- Protect Data Folders [https://github.com/zkSNACKs/Meta/issues/39](https://github.com/zkSNACKs/Meta/issues/39)
 
 ## VIII. Unique Wallet Features
 
 Unique wallet features are a set of unorganized ideas that are not closely related to privacy.
 These are by no means necessary for Wasabi, but what fun is there in programming if the developers are not allowed to play with their creativity once in a while?
 
-- Clipboard Hijacker Malware Defense: https://github.com/zkSNACKs/WalletWasabi/issues/496, https://github.com/zkSNACKs/WalletWasabi/pull/697
+- Clipboard Hijacker Malware Defense: [https://github.com/zkSNACKs/WalletWasabi/issues/496](https://github.com/zkSNACKs/WalletWasabi/issues/496), [https://github.com/zkSNACKs/WalletWasabi/pull/697](https://github.com/zkSNACKs/WalletWasabi/pull/697)
 
 ## IX. Conclusion
 

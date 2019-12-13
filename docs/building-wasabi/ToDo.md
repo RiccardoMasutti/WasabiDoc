@@ -1,3 +1,10 @@
+---
+{
+  "title": "ToDo List",
+  "description": "A collection of short term ToDo's and long term road-map goals of Wasabi Wallet. This is the Wasabi documentation, an archive of knowledge about the open-source, non-custodial and privacy-focused Bitcoin wallet for desktop."
+}
+---
+
 # ToDo's in Wasabi
 
 Wasabi Wallet is libre and open source software.
@@ -9,22 +16,25 @@ When you are ever bored and want to be productive, why not pick up one of these 
 
 ## Short Term ToDo's
 
-- [Manually change the anonset shield]()
+- [Manually change the anonset shield](https://github.com/zkSNACKs/WalletWasabi/issues/1980)
 - [Pay to many](https://github.com/zkSNACKs/WalletWasabi/issues/733)
-- Upgrade to Avalonia v8
+- [Upgrade to Avalonia v0.9](https://github.com/zkSNACKs/WalletWasabi/pull/2108)
+- [Upgrade to .NET Core v3.0](https://github.com/zkSNACKs/WalletWasabi/issues/2104)
 - Guide user to not consolidate [#1958](https://github.com/zkSNACKs/WalletWasabi/issues/1958) [#1983](https://github.com/zkSNACKs/WalletWasabi/issues/1983)
 - Improve PSBT ColdCard workflow [#2015](https://github.com/zkSNACKs/WalletWasabi/issues/2015)
 - User choice for CoinJoin denomination [#1900](https://github.com/zkSNACKs/WalletWasabi/issues/1900) [#1904](https://github.com/zkSNACKs/WalletWasabi/issues/1904)
 - [Improve cluster history](https://github.com/zkSNACKs/WalletWasabi/issues/612)
 - [Replace by fee integration](https://github.com/zkSNACKs/WalletWasabi/issues/1543)
-- [Add encryption manager BIP 322](https://github.com/zkSNACKs/WalletWasabi/issues/1121)
+- [Encryption manager BIP 322](https://github.com/zkSNACKs/WalletWasabi/issues/1121)
+- [Address typo location detector](https://github.com/zkSNACKs/WalletWasabi/issues/2114)
+- [Sweap private key](https://github.com/zkSNACKs/WalletWasabi/issues/486)
 
 
 ## Long Term Roadmap
 
 - [Rework the Wasabi UX](https://github.com/zkSNACKs/WalletWasabi/issues/1369)
 - [Multi wallet support](https://github.com/zkSNACKs/WalletWasabi/issues/1476)
-- Proper bitcoind integration
+- [Proper bitcoind integration](https://github.com/zkSNACKs/WalletWasabi/issues/2107)
 - Pay to EndPoint integration
 - Join Market integration
 - [SNICKER integration: Simple Non-Interactive CoinJoin with Keys for Encryption Reused](https://github.com/zkSNACKs/Meta/issues/67)

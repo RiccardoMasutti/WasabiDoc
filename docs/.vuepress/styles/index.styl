@@ -46,12 +46,44 @@ body
 
   h2
     font-size 2rem
+    border-bottom-color $dividerColor
 
   h3
   h4
+  summary
     text-transform uppercase
     letter-spacing 0.05rem
     font-weight 700
+
+  details
+    margin -4rem 0 0 0
+    &[open]
+      > :last-child
+        margin-bottom 3rem
+
+    + h2
+      padding-top 6.6rem
+
+  h2
+    + details
+      margin-top -3rem
+
+  summary
+    margin-top (0.5rem - $navbarHeight)
+    padding-top ($navbarHeight + 1rem)
+    margin-bottom 0
+    outline none
+    &:first-child
+      margin-top -1.5rem
+      margin-bottom 1rem
+    &:hover .header-anchor
+      opacity 1
+    &::marker
+      color $accentColor
+
+  hr
+    margin 2.5rem 0
+    border-color $dividerColor
 
   // home
   .home
@@ -143,7 +175,6 @@ body
 
   // content
   .page
-
     a:not(.nav-link)
       text-decoration none
       color $accentColor
@@ -178,22 +209,40 @@ body
       @media (prefers-color-scheme: light)
         border-left-color lighten($reducedTextColor, 50%)
 
+    ul
+      padding-left 1em
+
+    ol
+      padding-left 1.5em
+
     img
       margin 1rem 0
       border 1px solid $borderColor
 
     table
+      display table
       width 100%
 
     tr:nth-child(2n)
       background-color alpha($borderColor, 10%)
 
+    .all-contributors
+      table
+        td
+          width 20%
+          vertical-align top
+
     .custom-block
       background-color $codeBgColor
+      &.danger
+        color #c00
+        a
+          color #e63e3e
       &.warning
         color #c8af33
       @media (prefers-color-scheme: light)
-        &.tip
+        &.tip,
+        &.danger
           background-color #f3f5f7
         &.warning
           color #6b5900
@@ -201,20 +250,39 @@ body
 
     .ytEmbed
       position relative
-      margin-bottom 2rem
+      margin 1rem 0 2rem
       height 0
       overflow hidden
       max-width 100%
       padding-bottom 56.25%
+      background-repeat no-repeat
+      background-position 50%
+      background-size cover
+      background-color $codeBgColor
+
+      &:before
+        background url("data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAEAAAABACAYAAACqaXHeAAAERklEQVR4nOWbTWhcVRTHb1IJVoxGtNCNdal2JYJReC6GWuO83PM/59yUS3FRFARdFlwYP1CfiojQWt36sRCUurRIdVFXIn41lAoVdRGrG1M01YpKrWjiYmaSl8ybZJL3cd+YA//NLObd3++eO8x79z5jSq5Gw+8kov0AP8vMR5l1BtBZQM4B8ks75wCdZdYZZj5qLZ4hov2Nht9Z9vhKKSIaB/gI4M4w62KeAO6Mte4lYOq20FxrlqqOibhHmeWbvNC9ZfDX1mLae391aN6limO/gwgvAPJbWeAZuSDingdwXTBw7/0IsyaA/Fkh+KqOkD+YNfHej1QKD+y7iVlOhgLvFqFfNJvNGyuBJ+KDAF8MDd0tgS8y64OlgSdJMsysL4cG7SOHkyQZLhTee7+d2R2rAVy/S+Jd7/32ouBHAP4gNNRGQyTHc/84NhqNywZp5rvjjnnvt21aABFeCQ+RLwAf2hQ8s7sv9OCLk6AHNgQvIrvbfzKCD76g/O6cu7lf/iER/aQGgy448pExZmhdegAPhR9sObFWH1gT3lp7DaA/5bkIgJhZPgsNmz02novj+KqeApj1ubwXWe4kdyeznAgNvTpE/HQmvKqOMeuFogTUVQSRno+iaLRLAJF7uIgL9O4ubgL8aWgB7S44mNX+35YpICUiAvS9sBLkq1WzT+NFffl6AuoiApi6NT37h6sWkBIRZGkQ8YtLgyji6e1mBYTqCEBPG2Naz+0BWQgtoGoRgCzEsd9hAN1X5BfnFZASUfrSAFQNsyZ1FJASUVpHiLinDJG8U2cBZYogkrcNs5waBAGdstbeU9zdqpw0gPwwSAI6VUxHyFlDpOcHUUBBIuYNs14aZAE5RVwyzPr3/0EAEY0TyfGNjBWQvwZ +CTSbehfAH29mrID8bET0+0EUkAd8WYDOmqJ3ecsG30yr9wqRfm6Y+a1BEFDEjHfHvWmY9ck6CygHvBVr8Xhtb4ZE5HZA3y8DvBNA1TjnrmXWf+sioMwZX5V/VHXMGGMMoKdDCxCRvRWBdzKzdHEO+EisilbPyopHYqp6S9UCAsz4iojI7hUDAtyXVQgIDd6KnOoaWNkbI6FaPSuZGyMArsi7MZoloB4zviI/Nhr3X95jltwTRQmoIfgisy5ai+me67OI7fE4nrqjrqfK1t0eby0FPRB6oGVlchL3rgnfrq19RKbVBdhV9IOSwJmfmJi4vi/4ThERitwyCxVAFqydshuCX5awhQ9KtmuIWd8IDZED/nXT77rvVVv6sHRKwjYi91poqP7Dr+Y6JJ1VSZIMA3wkPNy6bX+o8Bcm0sXMdwM8Fxo0A3xORPaWBp6uPXsmbxCRD0NDL0dOANhVCXy6iAjMcjbcrMt3RITKwdMVRdFo+y5yvkL4eWZ+zHt/ZVD4dEVRNGotpst+dZZZH8k86lqn2pIvT/eqrNfn2xuyqYPZ8mv7s8pfn/8Pybm4TIjanscAAAAASUVORK5CYII=") no-repeat center center
+        background-size 64px 64px
+        position absolute
+        height 100%
+        width 100%
+        opacity .8
+        transition all 0.2s ease-out
+        content ''
+        cursor pointer
 
       iframe
-      object
-      embed
         position absolute
         top 0
         left 0
         width 100%
         height 100%
+        display none
+        &[src]
+          display block
+
+    .page-nav .inner
+      border-color $dividerColor
 
     .edit-link a
     .edit-link .icon
